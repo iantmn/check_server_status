@@ -38,7 +38,7 @@ def server_check(server_list: list[tuple[str, str, int]]):
             elif method == 'ssl':
                 # We're going to use an SSL connector for this.
                 print(f"{current_timestamp()} Using SSL for [{server}]...")
-                ssl.wrap_socket(socket.create_connection((server, port), timeout=10))
+                ssl.wrap_socket(socket.create_connection((server, port), timeout=10))  # TODO: Deprecated method
             else:
                 print(f"{current_timestamp()} Invalid mechanism defined for [{server}], skipping...")
                 
