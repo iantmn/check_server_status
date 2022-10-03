@@ -2,7 +2,8 @@ import socket
 import ssl
 from datetime import datetime
 
-########## CODE ##########
+
+# CODE #
 
 def current_timestamp():
     """Returns current date and time as a datetime object
@@ -13,21 +14,39 @@ def current_timestamp():
     return datetime.now().strftime("[%d-%m-%Y %H:%M:%S]")
 
 
-def server_check(server_list: list[tuple[str, str, int]]):
+def server_check(server_list_or_file: list[tuple[str, str, int]] | str, mode="list"):
     """Check the status of the servers in the list
 
-    Args:
-        server_list (list): list of tuples containing the server name, method (plain or ssl) and the port
-    """    
-    
+    Args: server_list_or_file (list | file):    list of tuples containing the server name, method (plain or ssl) and the
+                                                port or a file to the same information
+    """
+
     print(f"{current_timestamp()}  Server Status Checker Running....")
-    
+
+    # code that transfers server_list_or_file to a list form if the input was a file
+    if mode == "file":
+        with open(server_list_or_file) as f:
+            server_list = []
+            for entry in f:
+                if entry[0] == "#":
+                    continue
+                entry_list = entry.split(",")
+                try:
+                    server_list.append((entry_list[0].strip(), entry_list[1].strip(), entry_list[2].strip()))
+                except IndexError:
+                    raise IndexError("Value extraction from file failed. Make sure the file is structured properly.")
+    # code that renames server_list_or_file to server_list
+    elif mode == "list":
+        server_list = server_list_or_file
+    else:
+        raise TypeError(f"{mode} is not a valid argument for mode.")
+
     # empty lists to store the results
     server_down = []
     server_up = []
 
     for (server, method, port) in server_list:
-        # [ 'serverhost' , 'ssl' or 'plain', 'port' ]
+        # [ 'server' , 'ssl' or 'plain', 'port' ]
         print(f"{current_timestamp()} checking {server}, {method}, {port}")
 
         try:
@@ -41,14 +60,14 @@ def server_check(server_list: list[tuple[str, str, int]]):
                 ssl.wrap_socket(socket.create_connection((server, port), timeout=10))  # TODO: Deprecated method
             else:
                 print(f"{current_timestamp()} Invalid mechanism defined for [{server}], skipping...")
-                
+
             server_up.append(server)
             print(f"{current_timestamp()} {server}: UP")
-            
+
         except socket.timeout:
             server_down.append(server)
             print(f"{current_timestamp()} {server}: DOWN")
-        
+
         except Exception as err:
             server_down.append(server)
             print(f"An error occurred: {err}")
@@ -65,12 +84,5 @@ def server_check(server_list: list[tuple[str, str, int]]):
 
 
 if __name__ == "__main__":
-    # Define the list of servers to check.
-    server_list = [
-        ("tiemann.nl", "ssl", 443),
-        ("ian.tiemann.nl", "ssl", 443),
-        ("tiemann-design.nl", "plain", 80),
-        ]
-    
     # Run the server check.
-    server_check(server_list)
+    server_check("server_list.txt", mode="file")
