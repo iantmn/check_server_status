@@ -10,11 +10,8 @@ import ssl
 # list of servers to check with the following items in the
 # definitions per-server: ('hostname', 'ssl or plain', portnumber)
 SERVER_LIST = [
-    ("netw.nl", "ssl", 443),
     ("tiemann.nl", "ssl", 443),
     # ("tiemann-design.nl", "ssl", 443),
-    ("code.tiemann.nl", "plain", 80),
-    ("pbx.tiemann-design.nl", "ssl", 443),
     ]
 
 # Globally define these lists as 'empty' for population later.
