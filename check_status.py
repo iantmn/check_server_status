@@ -67,13 +67,9 @@ def server_check(server_list: list[tuple[str, str, int]]):
 if __name__ == "__main__":
     # Define the list of servers to check.
     server_list = [
-        ("netw.nl", "ssl", 443),
         ("tiemann.nl", "ssl", 443),
         ("ian.tiemann.nl", "ssl", 443),
         ("tiemann-design.nl", "plain", 80),
-        ("code.tiemann.nl", "plain", 80),
-        ("pbx.tiemann-design.nl", "ssl", 443),
-        ("tik-tax.nl", "ssl", 443),
         ]
     
     # Run the server check.
