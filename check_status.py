@@ -32,9 +32,11 @@ def server_check(server_list_or_file: list[tuple[str, str, int]] | str, mode="li
                     continue
                 entry_list = entry.split(",")
                 try:
-                    server_list.append((entry_list[0].strip(), entry_list[1].strip(), entry_list[2].strip()))
+                    server_list.append(
+                        (entry_list[0].strip(), entry_list[1].strip(), entry_list[2].strip()))
                 except IndexError:
-                    raise IndexError("Value extraction from file failed. Make sure the file is structured properly.")
+                    raise IndexError(
+                        "Value extraction from file failed. Make sure the file is structured properly.")
     # code that renames server_list_or_file to server_list
     elif mode == "list":
         server_list = server_list_or_file
@@ -57,9 +59,11 @@ def server_check(server_list_or_file: list[tuple[str, str, int]] | str, mode="li
             elif method == 'ssl':
                 # We're going to use an SSL connector for this.
                 print(f"{current_timestamp()} Using SSL for [{server}]...")
-                ssl.wrap_socket(socket.create_connection((server, port), timeout=10))  # TODO: Deprecated method
+                ssl.wrap_socket(socket.create_connection(
+                    (server, port), timeout=10))  # TODO: Deprecated method
             else:
-                print(f"{current_timestamp()} Invalid mechanism defined for [{server}], skipping...")
+                print(
+                    f"{current_timestamp()} Invalid mechanism defined for [{server}], skipping...")
 
             server_up.append(server)
             print(f"{current_timestamp()} {server}: UP")
