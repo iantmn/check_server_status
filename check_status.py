@@ -28,7 +28,7 @@ def server_check(server_list_or_file: list[tuple[str, str, int]] | str, mode="li
         with open(server_list_or_file) as f:
             server_list = []
             for entry in f:
-                if entry[0] == "#":
+                if entry[0] == "#" or entry[0] == "\n":
                     continue
                 entry_list = entry.split(",")
                 try:
