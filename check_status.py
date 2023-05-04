@@ -39,7 +39,7 @@ def server_check(server_list_or_file: list[tuple[str, str, int]] | str, mode="li
     elif mode == "list":
         server_list = server_list_or_file
     else:
-        raise TypeError(f"{mode} is not a valid argument for mode.")
+        raise TypeError(f"{mode} is not a valid argument for mode. Only 'list' or 'file' is supported")
 
     # empty lists to store the results
     server_down = []
@@ -84,5 +84,5 @@ def server_check(server_list_or_file: list[tuple[str, str, int]] | str, mode="li
 
 
 if __name__ == "__main__":
-    # Run the server check.
+    # Run the server check if used as script
     server_check("server_list.txt", mode="file")
